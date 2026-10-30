@@ -14,12 +14,12 @@ in a shell this agent can run.
 2. Draft the split as a table: title · plan section · scope · done when · blocked by.
    One issue per unit of work.
 3. **Stop and show the table to the human.** Publish nothing until they approve it.
-4. Ask the human what every issue here must carry (fields, labels, wording), unless it is
-   already written down in this session or in the repo.
+4. Every issue carries what "What every issue carries" below says. Ask the human only for
+   anything this plan needs beyond it.
 5. Create each issue in dependency order, so blocked-by can cite real numbers:
 
    ```sh
-   gh issue create --title "<title>" --body-file <tmp.md>
+   gh issue create --title "<title>" --label "plan:<plan>" --body-file <tmp.md>
    ```
 
 6. Record every issue URL from gh's output (not from memory) and reply with the list.
@@ -29,6 +29,29 @@ Closing one, with the closing comment from AGENTS.md:
 ```sh
 gh issue close <n> -c "<closing comment>"
 ```
+
+## What every issue carries
+
+The reviewer sorts issues by their first line and their label; a human approved the rest
+(morning-digest, 2026-10-30).
+
+- Label `plan:<plan>`, the `plan:` value from `plan.md`'s frontmatter (e.g. `plan:morning-digest`).
+  Create it once per plan: `gh label create "plan:<plan>"`.
+- The body, in this order:
+
+  ```md
+  Source: plan.md § <n>
+
+  **Scope:** <the section's work, in the plan's words>
+
+  **Done when:** <the section's "Done when", word for word>
+
+  **Blocked by:** #<n> (<what it needs from it>), or —
+  ```
+
+  `<n>` is the section as the plan numbers it: `1`, `2a`, `3`.
+- A step that ends by handing something to someone (a preview to a reviewer) is done when they
+  have it and say so, not when it is sent. Its issue stays open until then (AGENTS.md, step 5).
 
 ## No `gh`
 
